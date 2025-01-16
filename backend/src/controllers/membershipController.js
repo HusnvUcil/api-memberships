@@ -133,3 +133,38 @@ export const patchMembership = async (req, res) => {
   }
 };
 
+// --------- region validation ---------//
+// Validate membership by unique_key with detailed error messages
+export const validateMembership = async (req, res) => {
+  const { unique_key } = req.body; // Ambil unique_key dari body request
+
+  if (!unique_key) {
+    return res.status(400).json({ message: 'unique_key is required' });
+  }
+
+  try {
+    const [results] = await dbPool.query(
+      'SELECT status, access, game_list FROM memberships WHERE unique_key = ?',
+      [unique_key]
+    );
+
+    if (results.length === 0) {
+      return res.status(404).json({ 
+        message: 'Membership not found', 
+        error: `No membership found with unique_key: ${unique_key}` 
+      });
+    }
+
+    const { status, access, game_list } = results[0];
+    res.status(200).json({
+      message: 'Membership validated successfully',
+      status,
+      access,
+      game_list
+    });
+  } catch (err) {
+    res.status(500).json({ message: 'Error validating membership', error: err.message });
+  }
+};
+
+// --------- endregion validation ---------//

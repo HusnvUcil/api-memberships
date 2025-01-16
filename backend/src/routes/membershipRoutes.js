@@ -1,7 +1,7 @@
 import express from 'express';
 import { getAllMemberships, getMembershipByUniqueKey, createMembership,
         updateMembership, deleteMembership, patchMembership, 
-        deleteAllMemberships} from '../controllers/membershipController.js';
+        deleteAllMemberships, validateMembership} from '../controllers/membershipController.js';
 
 const router = express.Router();
 
@@ -14,5 +14,6 @@ router.delete('/:unique_key', deleteMembership); // Delete membership by unique_
 router.delete('/', deleteAllMemberships);
 
 router.patch('/:unique_key', patchMembership) //update patch membership 
- 
+router.post('/validate/', validateMembership);
+
 export default router;

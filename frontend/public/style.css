@@ -1,0 +1,109 @@
+/* region create members */
+
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+
+.form-container {
+    max-width: 250px;
+    margin: 0 auto;
+    padding: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container h2 {
+    text-align: center;
+}
+#membershipForm{
+    position: relative;
+    padding: 20px;
+}
+.form-container label {
+    display: block;
+    margin: 10px 0 5px;
+}
+
+.form-container input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.form-container button:hover {
+    background-color: #45a049;
+}
+
+#message {
+    margin-top: 10px;
+    text-align: center;
+}
+/* endregion create members */
+
+/* ----------- region table members -------------*/
+
+/* Gaya header tabel */
+thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+    font-weight: bold;
+}
+/* Gaya dasar tabel */
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 20px 0;
+    font-size: 1em;
+    font-family: Arial, sans-serif;
+    text-align: left;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
+
+th, td {
+    padding: 12px 15px;
+}
+
+/* Gaya border antar baris */
+tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+/* Gaya hover baris */
+tbody tr:hover {
+    background-color: #f3f3f3;
+}
+
+/* Gaya untuk baris genap */
+tbody tr:nth-of-type(even) {
+    background-color: #f9f9f9;
+}
+/* ----------- enregion table members ----------------*/
+
+/* -------------- region renew expiry_time from table ------------*/
+/* Menyembunyikan form input secara default */
+.renew-form {
+    display: none;
+}
+
+/* Mengatur tampilan ketika form tampil */
+.renew-form.show {
+    display: block;
+}
+
+/* endregion renew expiry_time from table */

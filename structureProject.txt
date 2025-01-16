@@ -1,0 +1,29 @@
+/project-root
+  ├── /node_modules              # Folder dependensi
+  ├── /src
+  │   ├── /controllers           # Folder untuk controller
+  │   │   └── membershipController.js  # Mengelola CRUD dan logika API untuk 'membership'
+  │   ├── /routes                # Folder untuk routing
+  │   │   └── membershipRoutes.js     # Mengatur routing API untuk 'membership'
+  │   ├── /config                # Folder konfigurasi
+  │   │   └── dbConfig.js       # Mengatur koneksi ke database MySQL
+  │   └── app.js                 # File utama aplikasi Express
+  ├── package.json               # File untuk dependensi dan metadata proyek
+  └── .env                       # File konfigurasi lingkungan (opsional)
+
+  //----
+  project-root/
+├── backend/          // Backend folder
+│   ├── routes/
+│   ├── controllers/
+│   ├── server.js
+│   ├── ...
+├── frontend/         // Frontend folder
+│   ├── public/
+│   │   ├── index.html
+│   ├── src/
+│   │   ├── App.js
+│   │   ├── index.js
+│   │   ├── components/
+│   ├── package.json
+│   ├── ...

@@ -4,8 +4,57 @@ body {
     font-family: Arial, sans-serif;
     padding: 20px;
 }
+/* region helper */
+.collapse-me {
+    display: block; /* Menyembunyikan elemen pada awalnya */
+  }
+.collapse-me.hide {
+    display: none; /* Menampilkan elemen saat diberi kelas 'show' */
+}
+/* endregion helper */
+/* region dropdown */
+label {
+    font-size: 16px;
+}
 
-.form-container {
+select {
+    padding: 8px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+}
+
+select:focus {
+    border-color: #007BFF;
+}
+/* endregion dropdown */
+
+/* region loading indicator */
+#loadingIndicator {
+    font-family: monospace;
+    align-items: center;
+    display: flex
+;
+    margin: 5px;
+    justify-content: center;
+}
+/* endregion loading indicator */
+
+/* region content menu */
+.container-memberConfig {
+    border: 1px solid #ccc; /* Warna dan ketebalan border */
+    border-radius: 10px; /* Membuat sudut rounded */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Membuat shadow */
+    padding: 20px; /* Jarak isi dalam kotak */
+    background-color: #fff; /* Warna latar belakang kotak */
+    max-width: 400px; /* Lebar maksimum kotak */
+    margin: 20px auto; /* Memberikan jarak atas dan bawah, serta center */
+}
+/* endregion content menu */
+.createMember-container {
+    display: block;
     max-width: 250px;
     margin: 0 auto;
     padding: 15px;
@@ -13,19 +62,19 @@ body {
     border-radius: 5px;
 }
 
-.form-container h2 {
+.createMember-container h2 {
     text-align: center;
 }
 #membershipForm{
     position: relative;
     padding: 20px;
 }
-.form-container label {
+.createMember-container label {
     display: block;
     margin: 10px 0 5px;
 }
 
-.form-container input {
+.createMember-container input {
     width: 100%;
     padding: 8px;
     margin-bottom: 10px;
@@ -33,7 +82,7 @@ body {
     border-radius: 5px;
 }
 
-.form-container button {
+.createMember-container button {
     width: 100%;
     padding: 10px;
     background-color: #4CAF50;
@@ -43,7 +92,7 @@ body {
     cursor: pointer;
 }
 
-.form-container button:hover {
+.createMember-container button:hover {
     background-color: #45a049;
 }
 
@@ -52,7 +101,106 @@ body {
     text-align: center;
 }
 /* endregion create members */
+/*<--- region validate member -->*/
+.validateMembership-container {
+    background-color: #f9f9f9;  /* Latar belakang abu-abu terang */
+    padding: 20px;
+    border-radius: 8px;  /* Sudut melengkung */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Efek bayangan */
+    max-width: 500px;  /* Lebar maksimum */
+    margin: 20px auto;  /* Pusatkan konten */
+}
 
+.validateMembership-container h2 {
+    font-family: 'Arial', sans-serif;
+    color: #333;
+    font-size: 1.6em;
+    margin-bottom: 10px;
+    text-align: center;  /* Teks judul dipusatkan */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+label {
+    font-size: 1em;
+    color: #333;
+}
+
+input[type="text"] {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1em;
+    width: 100%;  /* Membuat input memenuhi lebar form */
+    box-sizing: border-box;  /* Agar padding tidak membuat input lebih lebar */
+}
+
+button[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    font-size: 1em;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Bayangan normal */
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+button[type="submit"]:hover {
+    background-color: #45a049;  /* Warna lebih gelap saat hover */
+}
+button[type="submit"]:active {
+    background-color: #388E3C;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);  /* Bayangan lebih kecil saat klik */
+    transform: scale(0.98);  /* Efek klik dengan memperkecil tombol */
+}
+/* Membuat container responsif dan menjaga layout */
+.response-container {
+    position: absolute;
+    /* max-width: 100%;           Pastikan container bisa mengikuti lebar layar */
+    /* overflow-x: auto;         Tambahkan scroll horizontal jika JSON terlalu lebar */
+    /* margin: 20px 0;           Memberikan margin untuk ruang sekitar */
+    /* padding: 10px;            Memberikan padding di dalam container */
+    /* box-sizing: border-box;   Agar padding tidak menambah lebar */
+}
+/* Tombol toggle */
+.toggle-btn {
+    /* background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 15px; */
+    font-size: 10px;
+    cursor: pointer;
+    /* border-radius: 4px;
+    margin-bottom: 10px; */
+}
+
+/* .toggle-btn:hover {
+background-color: #0056b3;
+} */
+  
+/* Styling untuk elemen <pre> yang menampilkan JSON */
+#response {
+    background-color: #e9ecef;  /* Latar belakang abu-abu muda */
+    padding: 4px;              /* Padding untuk ruang di dalam */
+    border-radius: 8px;         /* Sudut tumpul untuk border */
+    font-family: 'Courier New', monospace; /* Font monospace untuk format JSON */
+    font-size: 14px;            /* Ukuran font yang nyaman untuk membaca */
+    white-space: pre;           /* Pastikan spasi dan baris baru tetap dipertahankan */
+    word-wrap: normal;          /* Menghindari pemotongan kata */
+    overflow-x: auto;           /* Scroll horizontal jika diperlukan */
+    max-width: 100%;            /* Memastikan respons tidak melampaui lebar layar */
+    box-sizing: border-box;     /* Padding masuk dalam lebar elemen */
+    margin: 0;                  /* Menghapus margin default */
+    height: auto;               /* Menyesuaikan tinggi otomatis */
+}
+
+
+/*--------endregion validate member -------*/
 /* ----------- region table members -------------*/
 
 /* Gaya header tabel */

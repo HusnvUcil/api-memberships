@@ -4,31 +4,64 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
-    <title>Create Membership</title>
+    <title>Membership</title>
   </head>
 
   <body>
-    <!-- region create members -->
-    <div class="form-container">
-      <h2>Create Membership</h2>
-      <!-- Form untuk menambahkan anggota -->
-      <form id="membershipForm">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required />
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required />
-        <button type="submit">Create Member</button>
-        <div id="message">
-          
-        </div>
-      </form>
+    <div class="dropdown-menu">
+      <h1>Dropdown dengan Output di Console</h1>
+      <label for="dropdown">Pilih opsi:</label>
+      <select id="dropdown">
+        <option value="" disabled selected>Pilih salah satu</option>
+        <option value="Opsi 1">Opsi 1</option>
+        <option value="Opsi 2">Opsi 2</option>
+        <option value="Opsi 3">Opsi 3</option>
+        <option value="Opsi 4">Opsi 4</option>
+      </select>
     </div>
-    <!-- endregion create members -->
+    <button id="refreshButton">Refresh Data</button>
 
+    <div class="container-memberConfig">
+      <div id="loadingIndicator" style="display: none">Fetching Data...</div>
+      <div class="content-memberConfig">
+        <!-- region create members -->
+        <div class="createMember-container">
+          <h2>Create Membership</h2>
+          <!-- Form untuk menambahkan anggota -->
+          <form id="membershipForm">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required />
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required />
+            <button type="submit">Create Member</button>
+            <div id="message"></div>
+          </form>
+        </div>
+        <!-- endregion create members -->
 
-    <!-- region getAll members -->
+        <!-- region POST validate members -->
+        <div class="validateMembership-container">
+          <h2>Validate Membership</h2>
+          <form id="validateMembership-form">
+            <label for="uniqueKey">Unique Key:</label>
+            <input type="text" id="uniqueKey" name="uniqueKey" required />
+            <button type="submit">Validate</button>
+          </form>
+
+          <h2>Response:</h2>
+          <div class="response-container">
+            <button id="toggleCollapse" class="toggle-btn">Toggle Content</button>
+            <pre id="response" class="collapse-me"></pre>
+          </div>
+        </div>
+        <!-- enregion POST validate members -->
+      </div>
+    </div>
+    <!-- endDiv .content-menu-->
+
+    <!-- region Table getAll members -->
     <div id="membershipPage">
-      <h1>Membership Management</h1>
+      <h2>Membership Management</h2>
       <!-- Tabel untuk menampilkan anggota -->
       <table id="membersTable" border="1">
         <thead>
@@ -41,12 +74,11 @@
           </tr>
         </thead>
         <tbody>
-          <!-- Data anggota akan diisi di sini -->
+          <!-- Data anggota akan diisi di sini - generate from js -->
         </tbody>
       </table>
     </div>
-
-    <!-- endregion getall members -->
+    <!-- endregion Table getAll members -->
 
     <script src="script.js"></script>
   </body>

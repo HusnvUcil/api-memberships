@@ -1,5 +1,18 @@
+ //------------ region helper function -----------------//
+const showLoading = (isLoading) => {
+    const loadingIndicator = document.getElementById('loadingIndicator');
+    loadingIndicator.style.display = isLoading ? 'block' : 'none';
+};
+document.getElementById("toggleCollapse").addEventListener("click", function() {
+    const collapseElement = document.querySelector("#response");
+    
+    // Toggle kelas 'show' pada elemen dengan id 'response'
+    collapseElement.classList.toggle("hide");
+  });
+  
+//------------ endregion helper function -----------------//
 
-//---------- region create memhers---------//
+//<---------- region create memhers --------->
 
 // Mengambil elemen form dan message untuk interaksi dengan user
 const form = document.getElementById('membershipForm');
@@ -67,49 +80,60 @@ form.addEventListener('submit', async (event) => {
 //---------- endregion create memhers---------//
 
 
-//---------- region get all memhers---------//
+//---------------------- region get all memhers-------------------//
+let cachedMemberships = null;
 
-// Fungsi utama untuk mengambil data dan memanggil fungsi lainnya
 const fetchMemberships = async () => {
+    // Cek apakah data sudah ada di localStorage
+    const cachedData = localStorage.getItem('memberships');
+    if (cachedData) {
+        // Gunakan data dari cache (localStorage)
+        cachedMemberships = JSON.parse(cachedData);
+        loadAndDisplayMembers(cachedMemberships);
+        return;
+    }
+
     try {
-        // Region: Mengambil data dari backend
         const response = await fetch('http://localhost:5000/api/memberships');
         if (!response.ok) throw new Error('Failed to fetch memberships');
+        cachedMemberships = await response.json();
         
-        const memberships = await response.json();
-
-        // Region: Memuat dan menampilkan anggota ke tabel
-        loadAndDisplayMembers(memberships);
-
+        // Simpan data ke localStorage untuk digunakan di kemudian hari
+        localStorage.setItem('memberships', JSON.stringify(cachedMemberships));
+        
+        loadAndDisplayMembers(cachedMemberships);
     } catch (error) {
         console.error(error.message);
     }
 };
 
-// Fungsi untuk memuat data dan menampilkan ke dalam tabel
-// // Fungsi untuk menangani event Apply
-// const handleApplyButton = (uniqueKey) => {
-//     const daysDelta = parseInt(document.querySelector(`#inputDaysDelta-${uniqueKey}`).value);
-//     console.log(`Apply button clicked for ${uniqueKey}, Days Delta: ${daysDelta}`);
-//     // Lanjutkan dengan logika pemrosesan data
-// };
+//fungsi laod members mannual
+const refreshData = async () => {
+    showLoading(true); // Menampilkan indikator loading
+    try {
+        const response = await fetch('http://localhost:5000/api/memberships');
+        if (!response.ok) throw new Error('Failed to fetch memberships');
+        const memberships = await response.json();
+        cachedMemberships = memberships; // Perbarui cache
 
-// // Fungsi untuk menangani event Renew
-// const handleRenewButton = (uniqueKey) => {
-//     console.log(`Renew button clicked for ${uniqueKey}`);
-//     const uniqueKey = event.target.getAttribute('data-id');
-//     const row = event.target.closest('tr');
-//     const renewForm = row.querySelector('.renew-form');
+        // Simpan data yang terbaru ke localStorage
+        localStorage.setItem('memberships', JSON.stringify(memberships));
 
-//     // Toggle collapse (expand or collapse)
-//     renewForm.classList.toggle('show');
-// };
+        loadAndDisplayMembers(memberships); // Render ulang UI
+    } catch (error) {
+        console.error(error.message);
+    } finally {
+        showLoading(false); // Sembunyikan indikator loading
+    }
+};
+
+document.getElementById('refreshButton').addEventListener('click', refreshData);
 
 const loadAndDisplayMembers = (memberships) => {
     const tableBody = document.querySelector('#membersTable tbody');
     tableBody.innerHTML = ''; // Clear previous rows
 
-    memberships.forEach((member) => {
+    memberships.data.forEach((member) => {
         const dateInfo = epochToHumanDate(member.expired_time);
         console.log('Date Info:', dateInfo);  // Debugging informasi tanggal
 
@@ -219,53 +243,6 @@ const patchMembership = async (id, newExpiredTime) => {
     }
 };
 
-// // Fungsi untuk meng-handle event pada tombol Apply
-// const handleApplyButton = async (event) => {
-//     const uniqueKey = event.target.getAttribute('data-id');
-//     const row = event.target.closest('tr');
-//     const inputDaysDelta = parseFloat(row.querySelector('#inputDaysDelta').value); // Mengganti nama menjadi inputDaysDelta
-
-//     // Validasi input (mengizinkan nilai negatif untuk pengurangan)
-//     if (isNaN(inputDaysDelta)) {
-//         alert("Please enter a valid number of days");
-//         return;
-//     }
-
-//     // Ambil data UTC epoch dari kolom span
-//     const utcEpoch = parseInt(row.querySelector('span').getAttribute('data-utc-epoch'));
-
-//     if (isNaN(utcEpoch)) {
-//         alert("Invalid epoch time");
-//         return;
-//     }
-
-//     // Tambahkan atau kurangi waktu berdasarkan inputDaysDelta
-//     const updatedUtcEpoch = utcEpoch + (inputDaysDelta * 24 * 60 * 60); // Tambah atau kurangi waktu dalam detik
-
-//     try {
-//         const response = await fetch(`http://localhost:5000/api/memberships/patch/${uniqueKey}`, {
-//             method: 'PATCH',
-//             headers: { 'Content-Type': 'application/json' },
-//             body: JSON.stringify({ expired_time: updatedUtcEpoch })
-//         });
-
-//         if (response.ok) {
-//             alert("Membership updated successfully");
-
-//             // Perbarui tampilan dengan waktu baru
-//             const newDateInfo = epochToHumanDate(updatedUtcEpoch);
-//             row.querySelector('span').textContent = newDateInfo.local.date;
-//             row.querySelector('span').setAttribute('data-utc-epoch', updatedUtcEpoch);
-//         } else {
-//             alert("Error updating membership");
-//         }
-//     } catch (error) {
-//         console.error("Error:", error);
-//         alert("Error updating membership");
-//     }
-// };
-
-
 // Fungsi untuk mengonversi epoch time ke human-readable date
 const epochToHumanDate = (epochTimeInSeconds) => {
     if (!epochTimeInSeconds || epochTimeInSeconds === 0) {
@@ -304,7 +281,6 @@ const epochToHumanDate = (epochTimeInSeconds) => {
         utc: { date: utcDate, epoch: Math.floor(dateObject.getTime() / 1000) }
     };
 };
-
 // Fungsi untuk mengonversi human-readable date ke epoch time
 const humanDateToEpoch = (humanReadableDate) => {
     const dateObject = new Date(humanReadableDate);
@@ -314,6 +290,46 @@ const humanDateToEpoch = (humanReadableDate) => {
     }
     return Math.floor(dateObject.getTime() / 1000);
 };
+
+//------------- region validate members -----------//
+document.getElementById('validateMembership-form').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Mencegah form dari reload halaman
+    
+    // Ambil nilai dari input
+    const uniqueKey = document.getElementById('uniqueKey').value;
+    
+    try {
+      // Kirim permintaan ke server menggunakan fetch
+      const response = await fetch('api/memberships/validate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ unique_key: uniqueKey }),
+      });
+  
+      // Parse respons menjadi JSON (ini sudah benar)
+      const data = await response.json();
+  
+      // Cek dan parse jika game_list masih berupa string JSON
+      if (data.data && typeof data.data.game_list === 'string') {
+        try {
+          // Parse game_list menjadi objek JavaScript
+          data.data.game_list = JSON.parse(data.data.game_list);
+        } catch (error) {
+          console.error('Error parsing game_list:', error);
+        }
+      }
+  
+      // Tampilkan respons di halaman dengan format JSON yang rapi
+      document.getElementById('response').textContent = JSON.stringify(data, null, 2);
+    
+    } catch (error) {
+      // Tampilkan error jika ada
+      document.getElementById('response').textContent = `Error: ${error.message}`;
+    }
+  });  
+//------------- endregion validate members -----------//
 
 // Panggil fetchMemberships setelah halaman dimuat
 document.addEventListener('DOMContentLoaded', fetchMemberships);

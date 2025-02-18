@@ -15,4 +15,17 @@ const dbPool = mysql.createPool({
   })
   .promise(); // Gunakan wrapper Promise untuk mendukung async/await
 
+dbPool.getConnection()
+.then(connection => {
+  return connection.query("SELECT DATABASE() AS dbName")
+    .then(([rows]) => {
+      console.log("✅ Database Connected Successfully!");
+      console.log("📌 Connected to Database:", rows[0].dbName); // Menampilkan nama database
+      connection.release(); // Lepaskan koneksi
+    });
+})
+.catch(err => {
+  console.error("❌ Database Connection Failed:", err.message);
+});
+//jalankan app selevel dengan modul node js nya
 export default dbPool;

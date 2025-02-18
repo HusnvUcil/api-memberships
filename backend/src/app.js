@@ -2,10 +2,15 @@ import express from 'express';
 import path from 'path';
 import dotenv from 'dotenv';
 import membershipRoutes from './routes/membershipRoutes.js';
+import cors from 'cors'; // Import CORS middleware
 
 dotenv.config(); // Load environment variables
 
 const app = express();
+
+// Menggunakan CORS middleware
+app.use(cors()); // Aktifkan CORS untuk semua domain
+
 app.use(express.json()); // Middleware untuk parsing JSON body
 
 // Menyajikan file statis dari folder 'frontend/public'

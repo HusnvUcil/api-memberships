@@ -1,0 +1,10 @@
+<----- folding code ----->
+
+    "editor.folding": true,
+    "editor.foldingStrategy": "auto",
+    "editor.foldRegions": {
+        "start": "#region",
+        "end": "#endregion"
+    }
+    
+<----- folding code ----->

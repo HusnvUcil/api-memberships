@@ -9,6 +9,7 @@ const dbPool = mysql.createPool({
     user: process.env.DB_USER, // User database
     password: process.env.DB_PASS, // Password database
     database: process.env.DB_NAME, // Nama database
+    // connectTimeout: 10000,  // Waktu timeout 10 detik
     // waitForConnections: true, // Tunggu koneksi jika pool penuh
     // connectionLimit: 10, // Batas maksimum koneksi dalam pool
     // queueLimit: 0, // Tidak ada batas antrian
@@ -26,6 +27,7 @@ dbPool.getConnection()
 })
 .catch(err => {
   console.error("❌ Database Connection Failed:", err.message);
+  console.error("err object:", err);
 });
 //jalankan app selevel dengan modul node js nya
 export default dbPool;
